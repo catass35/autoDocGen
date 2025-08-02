@@ -54,6 +54,7 @@ def extract_lines_with_patterns(file_path, patterns):
 
 ### @section: Main
 def main():
+    """main section of the script"""
     if len(sys.argv) != 4:
         print("Usage: python extract_from_configurable_patterns.py <input_file> <output_file> <config_file>")
         sys.exit(1)
