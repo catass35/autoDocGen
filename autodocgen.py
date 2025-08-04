@@ -33,10 +33,13 @@ def load_config(config_path):
             return json.load(f)
     except FileNotFoundError:
         print(f"❌ Config file not found: {config_path}")
+        return None
     except PermissionError:
         print(f"❌ Permission denied when accessing: {config_path}")
+        return None
     except OSError as e:
         print(f"❌ OS error while accessing config: {e}")
+        return None
 
 ## @function: extract_lines_with_patterns(file_path, patterns)
 # @param: input file path, configuration
