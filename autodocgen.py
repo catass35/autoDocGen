@@ -1,6 +1,5 @@
 #### @title: autoDocGen v1.0
-""" This progamm generates documentation from comments automatically"""
-""" It's looking for comments patterns to extract them to a file"""
+"""This progamm generates documentation from comments automatically"""
 
 ### @section: Import
 import sys
@@ -32,14 +31,17 @@ def load_config(config_path):
     try:
         with open(config_path, 'r', encoding='utf-8') as f:
             return json.load(f)
-    except Exception as e:
-        print(f"❌ Failed to load configuration: {e}")
-        sys.exit(1)
+    except FileNotFoundError:
+        print(f"❌ Config file not found: {config_path}")
+    except PermissionError:
+        print(f"❌ Permission denied when accessing: {config_path}")
+    except OSError as e:
+        print(f"❌ OS error while accessing config: {e}")
 
 ## @function: extract_lines_with_patterns(file_path, patterns)
 # @param: input file path, configuration
 # @return: list
-# @describtion: append a list with all occurrence of lines maching the patterns from loaded configuration
+# @describtion: append a list with all lines maching the patterns from loaded configuration
 def extract_lines_with_patterns(file_path, patterns):
     """Put all occurrences of matching patterns into a list"""
     results = []
@@ -49,7 +51,9 @@ def extract_lines_with_patterns(file_path, patterns):
             for pattern_def in patterns:
                 match = re.match(pattern_def["pattern"], line)
                 if match:
-                    transformed = re.sub(pattern_def["pattern"], pattern_def["transform"], line).strip()
+                    transformed = re.sub(pattern_def["pattern"],
+                                         pattern_def["transform"],
+                                         line).strip()
                     results.append(transformed)
                     break  # Stop checking other patterns for this line
     return results
@@ -58,7 +62,7 @@ def extract_lines_with_patterns(file_path, patterns):
 def main():
     """main section of the script"""
     if len(sys.argv) != 4:
-        print("Usage: python extract_from_configurable_patterns.py <input_file> <output_file> <config_file>")
+        print("Usage: python autodocgen.py <input_file> <output_file> <config_file>")
         sys.exit(1)
 
     input_path, output_path, config_path = sys.argv[1], sys.argv[2], sys.argv[3]
