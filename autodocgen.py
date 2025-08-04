@@ -1,5 +1,6 @@
 #### @title: autoDocGen v1.0
-""" This progamm generates documentation from comments automaticatlly by looking for comments patterns"""
+""" This progamm generates documentation from comments automatically"""
+""" It's looking for comments patterns to extract them to a file"""
 
 ### @section: Import
 import sys
